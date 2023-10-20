@@ -4,6 +4,7 @@ const cookieParser=require('cookie-parser');
 const app = express();
 const {MongoClient}=require("mongodb");
 const routes=require("./modules/routes");
+const auth=require("./modules");
 
 const uri="mongodb://localhost:27017";
 const client=new MongoClient(uri);
@@ -19,8 +20,10 @@ app.use(function (req, res, next) {
 app.use(express.urlencoded({extended: true}));
 
 routes.routes(app, client, database);
+app.use('/auth',auth);
 
-app.listen(4000, () => {
-    console.log("il server è avviato su 4000");
+const PORT=process.env.PORT
+app.listen(PORT, () => {
+    console.log('il server è avviato sulla porta' (PORT));
 });
 

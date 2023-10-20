@@ -1,16 +1,22 @@
-exports.auth = async (client, database, req) => {
+exports.auth = async (client,database,req)=>{
 
-  const user = await database.collection('users').findOne({ email: req.body.email });
+  const collection = database.collection('users');
+  
+  const result = await collection.findOne({email: req.headers['email']});
+  
+  if(result){
+  
+  const bcrypt = require ('bcrypt');
+  
+  const compareToken = await bcrypt.compare(req.headers['password'],result.password);
 
-  if (!user) {
-    return "user non trovato";
+  if (compareToken){   
+  
+      return result.role;
+  
+  } else {
+  
+      return null;
   }
-
-  const passwordMatch = await bcrypt.compare(req.body.password, user.password);
-
-  if (!passwordMatch) {
-    return "password sbagliata";
-  }
-
-  return user.role;
-};
+}
+}

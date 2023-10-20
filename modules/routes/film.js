@@ -1,5 +1,4 @@
 exports.film = (app, client, database) => {
-  console.log("entrato in film");
   const auth = require('../auth');
   
   app.get('/film/read', async (req, res) => {
