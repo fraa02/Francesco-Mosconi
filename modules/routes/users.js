@@ -4,33 +4,6 @@ exports.users = (app, client, database) => {
   const jwt = require('jsonwebtoken');
   const bcrypt = require('bcrypt');
 
-  app.post('/users/register', async (req, res) => {
-    const authenticate = await auth.authenticate(client, database, req);
-
-    if (authenticate === "admin") {
-      const { username, password, email, role } = req.body;
-
-      const newUser = {
-        username: username,
-        password: await bcrypt.hash(password, 10),
-        email: email,
-        role: role,
-      };
-
-      try {
-        const collection = database.collection('users');
-        const result = await collection.insertOne(newUser);
-
-        res.json({ message: 'Nuovo utente registrato con successo', insertedId: result.insertedId });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Errore durante la registrazione dell'utente" });
-      }
-    } else {
-      res.status(401).json({ error: 'Utente non autorizzato a registrare nuovi utenti' });
-    }
-  });
-
   app.post('/users/login', async (req, res) => {
 
     const authenticate = await auth.authenticate(client, database, req);
@@ -65,17 +38,35 @@ exports.users = (app, client, database) => {
     }
   }
   });
-  
-  app.post('/users/logout', async (req, res) => {
+
+  app.post('/users/register', async (req, res) => {
     const authenticate = await auth.authenticate(client, database, req);
-    
+
     if (authenticate === "admin") {
-    res.clearCookie('refreshToken');
-    res.json({ message: "Refresh token revocato con successo" });
+      const { username, password, email, role } = req.body;
+
+      const newUser = {
+        username: username,
+        password: await bcrypt.hash(password, 10),
+        email: email,
+        role: role,
+      };
+
+      try {
+        const collection = database.collection('users');
+        const result = await collection.insertOne(newUser);
+
+        res.json({ message: 'Nuovo utente registrato con successo', insertedId: result.insertedId });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Errore durante la registrazione dell'utente" });
+      }
+    } else {
+      res.status(401).json({ error: 'Utente non autorizzato a registrare nuovi utenti' });
     }
   });
 
-  app.post('/users/refresh', async (req, res) => {
+  app.put('/users/refresh', async (req, res) => {
     const authenticate = await auth.authenticate(client, database, req);
     
     if (authenticate === "admin") {
@@ -97,5 +88,14 @@ exports.users = (app, client, database) => {
       res.status(401).json({ error: "Refresh token non valido" });
     }
   }
+  });
+
+  app.delete('/users/logout', async (req, res) => {
+    const authenticate = await auth.authenticate(client, database, req);
+    
+    if (authenticate === "admin") {
+    res.clearCookie('refreshToken');
+    res.json({ message: "Refresh token revocato con successo" });
+    }
   });
 }
