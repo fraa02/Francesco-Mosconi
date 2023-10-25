@@ -6,7 +6,7 @@ exports.routes = (app, client, database) => {
     const filmRoutes=require("./routes/film");
 
     // inizializzo le routes
+    
     userRoutes.users(app, client, database);
     filmRoutes.film(app, client, database);
-
 }

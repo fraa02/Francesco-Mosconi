@@ -1,16 +1,11 @@
 exports.film = (app, client, database) => {
-  const auth = require('../auth');
+  const auth = require('../authentication');
   
-  app.get('/film/read', async (req, res) => {
-    const authenticate = await auth.auth(client, database, req);
-    if (authenticate === "user" || authenticate ==="admin") {
+  app.get('/film/read', auth.authentication, async (req, res) => {
         const collection = database.collection('film');
 
         const result = await collection.find({"id": (req.params.id)}).toArray();
         res.sendStatus(200);
-    } else {
-      res.sendStatus(401);
-    }
   });
   
   app.post('/film/add', async (req, res) => {
@@ -61,7 +56,6 @@ exports.film = (app, client, database) => {
       res.sendStatus(401);
     }
   });  
-}
 
 app.delete('/film/delete/:id', async (req, res) => {
   const authenticate = await auth.authentication(client, database, req);
@@ -85,3 +79,4 @@ app.delete('/film/delete/:id', async (req, res) => {
     res.sendStatus(401);
   }
 });
+}

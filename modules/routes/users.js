@@ -1,25 +1,20 @@
-exports.users = (app, client, database) => {
-  const auth = require('../auth');
-
+  const auth = require('../authentication');
   const jwt = require('jsonwebtoken');
   const bcrypt = require('bcrypt');
 
+exports.users = (app, client, database) => {
   app.post('/users/login', async (req, res) => {
-
-    const authenticate = await auth.authenticate(client, database, req);
-    
-    if (authenticate === "admin") {
     const { username, password } = req.body;
-  
+    const collection = database.collection('users');
+    const user = await collection.find({"username": req.body.username}).toArray();
     try {
-      const user = await getUserByUsername(username);
-  
-      if (user && await bcrypt.compare(password, user.password)) {
+
+      if (username && await bcrypt.compare(password, user[0].password)) {
         const userForToken = {
-          email: user.email,
-          role: user.role,
+          username: user[0].username,
+          role: user[0].role,
         };
-  
+        console.log(userForToken);
         const accessToken = jwt.sign(userForToken, process.env.JWT_SECRET, { expiresIn: '15m' });
         const refreshToken = jwt.sign(userForToken, process.env.JWT_SECRET, { expiresIn: '7d' });
   
@@ -29,26 +24,21 @@ exports.users = (app, client, database) => {
         });
   
         res.json({ accessToken });
-      } else {
-        res.status(401).json({ error: 'Username o password non valide' });
       }
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: "Errore durante login" });
+
     }
-  }
   });
 
   app.post('/users/register', async (req, res) => {
-    const authenticate = await auth.authenticate(client, database, req);
 
-    if (authenticate === "admin") {
-      const { username, password, email, role } = req.body;
+      const { username, password, role } = req.body;
 
       const newUser = {
         username: username,
         password: await bcrypt.hash(password, 10),
-        email: email,
         role: role,
       };
 
@@ -61,15 +51,9 @@ exports.users = (app, client, database) => {
         console.error(error);
         res.status(500).json({ error: "Errore durante la registrazione dell'utente" });
       }
-    } else {
-      res.status(401).json({ error: 'Utente non autorizzato a registrare nuovi utenti' });
-    }
-  });
+    });
 
   app.put('/users/refresh', async (req, res) => {
-    const authenticate = await auth.authenticate(client, database, req);
-    
-    if (authenticate === "admin") {
     const refreshToken = req.cookies.refreshToken;
   
     if (!refreshToken) {
@@ -87,15 +71,10 @@ exports.users = (app, client, database) => {
       console.error(error);
       res.status(401).json({ error: "Refresh token non valido" });
     }
-  }
   });
 
   app.delete('/users/logout', async (req, res) => {
-    const authenticate = await auth.authenticate(client, database, req);
-    
-    if (authenticate === "admin") {
     res.clearCookie('refreshToken');
     res.json({ message: "Refresh token revocato con successo" });
     }
-  });
-}
+  )};
