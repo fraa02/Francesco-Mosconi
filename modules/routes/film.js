@@ -24,7 +24,7 @@ exports.film = (app, client, database) => {
         purchases: req.body.purchases,
       });
 
-      res.send(result,{ message: "Film aggiunto" });
+      res.send({ message: "Film aggiunto" });
     } catch (error) {
       console.log(error);
       res.sendStatus(400);
