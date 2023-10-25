@@ -12,7 +12,7 @@ exports.film = (app, client, database) => {
     }
   });
 
-  app.post('/film/add', async (req, res) => {
+  app.post('/film/add', auth.authentication, async (req, res) => {
     try {
       const collection = database.collection('film');
       const result = await collection.insertOne({
@@ -31,7 +31,7 @@ exports.film = (app, client, database) => {
     }
   });
 
-  app.put('/film/update/:id', async (req, res) => {
+  app.put('/film/update/:id', auth.authentication, async (req, res) => {
     try {
       const collection = database.collection('film');
       const result = await collection.updateOne({ id: req.params.id }, {
@@ -55,7 +55,7 @@ exports.film = (app, client, database) => {
     }
   });
 
-  app.delete('/film/delete/:id', async (req, res) => {
+  app.delete('/film/delete/:id', auth.authentication, async (req, res) => {
     try {
       const collection = database.collection('film');
       const result = await collection.deleteOne({ id: req.params.id });
