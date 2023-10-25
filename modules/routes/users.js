@@ -15,7 +15,7 @@ exports.users = (app, client, database) => {
           role: user[0].role,
         };
         console.log(userForToken);
-        const accessToken = jwt.sign(userForToken, process.env.JWT_SECRET, { expiresIn: '15m' });
+        const accessToken = jwt.sign(userForToken, process.env.JWT_SECRET, { expiresIn: '1h' });
         const refreshToken = jwt.sign(userForToken, process.env.JWT_SECRET, { expiresIn: '7d' });
   
         res.cookie('refreshToken', refreshToken, {
