@@ -73,8 +73,34 @@ exports.users = (app, client, database) => {
     }
   });
 
-  app.delete('/users/logout', async (req, res) => {
-    res.clearCookie('refreshToken');
-    res.json({ message: "Refresh token revocato con successo" });
+  app.delete('/users/logout/:id', async (req, res) => {
+    const id = req.params.id;
+  
+    if (!id) {
+      return res.status(400).json({ error: "ID mancante" });
     }
-  )};
+    
+  const refreshToken = req.cookies.refreshToken;
+
+  if (!refreshToken) {
+    return res.status(401).json({ error: "Refresh token non trovato" });
+  }
+
+  try {
+    const result = await collection.updateOne(
+      { id: req.params.id },
+      { $pull: { refreshToken: refreshToken } }
+    );
+
+    if (result.modifiedCount > 0) {
+      res.clearCookie('refreshToken');
+      res.json({ message: "Refresh token revocato con successo" });
+    } else {
+      res.status(400).json({ error: "Token di refresh non trovato per questo utente" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Errore durante la revoca del token di refresh" });
+  }
+});
+}
