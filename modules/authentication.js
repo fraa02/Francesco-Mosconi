@@ -15,6 +15,6 @@ exports.authentication = async (req, res, next) => {
   });
 };
 
-exports.expiredToken = (req, res) => {
+/*exports.expiredToken = (req, res) => {
   return res.status(401).json({ error: 'Token scaduto' });
-};
+};*/
