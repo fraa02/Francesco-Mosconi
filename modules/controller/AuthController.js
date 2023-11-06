@@ -71,7 +71,7 @@ const refresh = (req, res, database) => {
     const collection = database.collection('users');
 
     try {
-      const result = await collection.findOne({ username: user.username }); // Modifica da 'username: username' a 'username: user.username'
+      const result = await collection.findOne({ username: user.username });
 
       if (!result) {
         return res.status(401).json({ error: 'Utente non trovato' });
