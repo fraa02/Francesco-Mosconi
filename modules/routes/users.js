@@ -1,5 +1,6 @@
 const auth = require('../authentication');
 const authController = require('./modules/controller/AuthController');
+const userController = require('./modules/controller/UserController');
 
 exports.users = (app, client, database) => {
     app.post('/users/login', auth.authentication, async (req, res) => {
@@ -7,11 +8,11 @@ exports.users = (app, client, database) => {
   });
 
   app.post('/users/register',auth.authentication, async (req, res) => {
-    authController.register(req, res, database);
+    userController.register(req, res, database);
   });
 
   app.put('/users/refresh', auth.authentication, async (req, res) => {
-    authController.refresh(req, res, database);
+    userController.refresh(req, res, database);
   });
 
   app.delete('/users/logout', auth.authentication, async (req, res) => {
