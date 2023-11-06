@@ -4,6 +4,6 @@ exports.controller = (app, client, database) => {
     const userController = require("./controller/UserController");
 
     authController.AuthController(app, client, database);
-    userController.userController(app, client, database);
+    userController.UserController(app, client, database);
 
 };
