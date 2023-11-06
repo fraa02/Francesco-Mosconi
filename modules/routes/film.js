@@ -1,7 +1,7 @@
 exports.film = (app, client, database) => {
   const auth = require('../authentication');
 
-  app.get('/film/read', auth.authentication, async (req, res) => {
+  app.get('/film/read', async (req, res) => {
     const collection = database.collection('film');
 
     const result = await collection.find({ id: req.params.id }).toArray();
