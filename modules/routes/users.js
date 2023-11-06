@@ -3,7 +3,7 @@ const authController = require('../controller/AuthController');
 const userController = require('../controller/UserController');
 
 exports.users = (app, client, database) => {
-    app.post('/users/login', auth.authentication, async (req, res) => {
+    app.post('/users/login', async (req, res) => {
     authController.login(req, res, database);
   });
 
@@ -11,7 +11,7 @@ exports.users = (app, client, database) => {
     userController.register(req, res, database);
   });
 
-  app.put('/users/refresh', auth.authentication, async (req, res) => {
+  app.put('/users/refresh', async (req, res) => {
     userController.refresh(req, res, database);
   });
 

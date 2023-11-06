@@ -3,25 +3,28 @@ const bcrypt = require('bcrypt');
 
 
 const register = async (req, res, database) => {
-    const { username, password, role } = req.body;
-    
-    const newUser = {
-      username: username,
-      password: await bcrypt.hash(password, 10),
-      role: role,
-    };
-    
-    try {
-      const collection = database.collection('users');
-      const result = await collection.insertOne(newUser);
-    
-      res.json({ message: 'Nuovo utente registrato con successo', insertedId: result.insertedId });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Errore durante la registrazione dell'utente" });
-    }
-    };
+  const { username, password, role } = req.body;
 
+  if (req.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Accesso non consentito. È richiesto il ruolo di amministratore.' });
+  }
+
+  const newUser = {
+    username: username,
+    password: await bcrypt.hash(password, 10),
+    role: role,
+  };
+
+  try {
+    const collection = database.collection('users');
+    const result = await collection.insertOne(newUser);
+
+    res.json({ message: 'Nuovo utente registrato con successo', insertedId: result.insertedId });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Errore durante la registrazione dell'utente" });
+  }
+};
 
 const refresh = (req, res, database) => {
     const refreshToken = req.cookies.refreshToken;
