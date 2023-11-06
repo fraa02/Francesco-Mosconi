@@ -4,7 +4,9 @@ const cookieParser=require('cookie-parser');
 const app = express();
 const {MongoClient}=require("mongodb");
 const routes=require("./modules/routes");
-const dotenv=require('dotenv')
+const controller=require("./modules/controller");
+const dotenv=require('dotenv');
+
 /*const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -39,6 +41,8 @@ app.use(express.urlencoded({extended: true}));
 dotenv.config();
 
 routes.routes(app, client, database);
+
+controller.controller(app,client,database);
 
 app.listen(6000, () => {
     console.log('il server è avviato sulla porta 6000');
