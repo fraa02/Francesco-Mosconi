@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
+const saltrounds = 12;
 
 const register = async (req, res, database) => {
   const { username, password, role } = req.body;
@@ -11,7 +12,7 @@ const register = async (req, res, database) => {
 
   const newUser = {
     username: username,
-    password: await bcrypt.hash(password, 10),
+    password: await bcrypt.hash(password, saltrounds),
     role: role,
   };
 
