@@ -1,6 +1,6 @@
 const auth = require('../authentication');
-const authController = require('./modules/controller/AuthController');
-const userController = require('./modules/controller/UserController');
+const authController = require('../controller/AuthController');
+const userController = require('../controller/UserController');
 
 exports.users = (app, client, database) => {
     app.post('/users/login', auth.authentication, async (req, res) => {
