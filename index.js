@@ -6,17 +6,11 @@ const routes = require('./modules/routes');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  role: { type: String, enum: ['user', 'admin'], default: 'user' }
-});
-
-const UserModel = mongoose.model('User', userSchema, 'users');
+const User = require('./userModel');
 
 async function main() {
-  await mongoose.connect('mongodb://localhost:27017/node_api_film'); 
-  const user = new UserModel({ username: '123', password: '12345' });
+  await mongoose.connect('mongodb://localhost:27017/node_api_film');
+  const user = new User({ username: '123', password: '12345' });
   user.role = 'admin';
   await user.save();
 }
