@@ -16,15 +16,15 @@ exports.users = (app, client, database) => {
   });
 
   app.get('/users/view',auth.authentication, async (req, res) => {
-    userController.register(req, res, database);
+    userController.view(req, res, database);
   });
 
   app.post('/users/register',auth.authentication, async (req, res) => {
     userController.register(req, res, database);
   });
 
-  app.put('/users/modify', async (req, res) => {
-    userController.refresh(req, res, database);
+  app.put('/users/modify/:id', async (req, res) => {
+    userController.modify(req, res, database);
   });
 
 };

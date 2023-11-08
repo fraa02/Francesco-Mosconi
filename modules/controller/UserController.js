@@ -36,8 +36,13 @@ const register = async (req, res) => {
 };
 
 const modify = async (req, res) => {
-  const userId = req.user._id;
+  const userId = req.params.id;
   const { newPassword, newInfo } = req.body;
+
+  if (!req.user || !req.user.role) {
+    return res.status(401).json({ error: 'Accesso non consentito' });
+  }
+
   const requesterRole = req.user.role;
 
   try {
@@ -68,6 +73,7 @@ const modify = async (req, res) => {
     res.status(500).json({ error: 'Errore durante la modifica delle informazioni utente' });
   }
 };
+
 
 module.exports = {
   view,
