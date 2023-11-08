@@ -1,16 +1,32 @@
 const Film = require('../models/filmModel');
 
-const read = async (res) => {
+const filmList = async (req,res) => {
   try {
-    const films = await Film.find({});
-    res.json(films);
+    const films = await Film.find({}, 'title'); 
+    const titles = films.map(film => film.title); 
+    res.json(titles);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Errore nella lettura dei film' });
   }
 };
 
-const add = async (req, res) => {
+const filmDetails = async (req, res) => {
+  const filmId = req.params.id;
+
+  try {
+    const film = await Film.findById(filmId);
+    if (!film) {
+      return res.status(404).json({ error: 'Film non trovato' });
+    }
+    res.json(film);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Errore nella lettura dei dettagli del film' });
+  }
+};
+
+const filmAdd = async (req, res) => {
   const { id, title, language, director, description, purchases } = req.body;
 
   try {
@@ -31,7 +47,7 @@ const add = async (req, res) => {
   }
 };
 
-const update = async (req, res) => {
+const filmUpdate = async (req, res) => {
   const filmId = req.params.id;
   const { title, language, director, description, purchases } = req.body;
 
@@ -68,13 +84,14 @@ const deleteFilm = async (req, res) => {
     res.json({ message: 'Film eliminato' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Errore durante l\'eliminazione del film' });
+    res.status(500).json({ error: 'Errore durante eliminazione del film' });
   }
 };
 
 module.exports = {
-  read,
-  add,
-  update,
+  filmList,
+  filmDetails,
+  filmAdd,
+  filmUpdate,
   deleteFilm,
 };
