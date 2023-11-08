@@ -6,7 +6,7 @@ const routes = require('./modules/routes');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 
-const User = require('./userModel');
+const User = require('./modules/models/userModel');
 
 async function main() {
   await mongoose.connect('mongodb://localhost:27017/node_api_film');

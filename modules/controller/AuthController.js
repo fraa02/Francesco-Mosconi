@@ -9,7 +9,7 @@ const generateAccessToken = (user) => {
   return jwt.sign(userForToken, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
 
-const User = require('../../userModel');
+const User = require('..models/userModel');
 
 const login = async (req, res) => {
   const { username, password } = req.body;
