@@ -2,8 +2,6 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
 
-const saltrounds = 12;
-
 const view = (req, res) => {
   const userInfo = {
     username: req.user.username,
@@ -20,9 +18,11 @@ const register = async (req, res) => {
   }
 
   try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const newUser = new User({
       username: username,
-      password: await bcrypt.hash(password, saltrounds),
+      password: hashedPassword,
       role: role,
     });
 
@@ -49,16 +49,15 @@ const modify = async (req, res) => {
 
     if (requesterRole === 'admin') {
       if (newPassword) {
-        user.password = await bcrypt.hash(newPassword, saltrounds);
+        user.password = await bcrypt.hash(newPassword, 10); 
       }
       if (newInfo) {
         user.username = newInfo.username;
         user.role = newInfo.role;
       }
-    }
-    else {
+    } else {
       if (newPassword) {
-        user.password = await bcrypt.hash(newPassword, saltrounds);
+        user.password = await bcrypt.hash(newPassword, 10); 
       }
     }
 
