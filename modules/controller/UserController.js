@@ -1,7 +1,16 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const saltrounds = 12;
 const User = require('../models/userModel');
+
+const saltrounds = 12;
+
+const view = (req, res) => {
+  const userInfo = {
+    username: req.user.username,
+    role: req.user.role,
+  };
+  res.json(userInfo);
+};
 
 const register = async (req, res) => {
   const { username, password, role } = req.body;
@@ -26,39 +35,43 @@ const register = async (req, res) => {
   }
 };
 
-const refresh = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
+const modify = async (req, res) => {
+  const userId = req.user._id;
+  const { newPassword, newInfo } = req.body;
+  const requesterRole = req.user.role;
 
-  if (!refreshToken) {
-    return res.status(401).json({ error: "Refresh token non trovato" });
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'Utente non trovato' });
+    }
+
+    if (requesterRole === 'admin') {
+      if (newPassword) {
+        user.password = await bcrypt.hash(newPassword, saltrounds);
+      }
+      if (newInfo) {
+        user.username = newInfo.username;
+        user.role = newInfo.role;
+      }
+    }
+    else {
+      if (newPassword) {
+        user.password = await bcrypt.hash(newPassword, saltrounds);
+      }
+    }
+
+    const result = await user.save();
+    res.json({ message: 'Informazioni utente modificate con successo', updatedUser: result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Errore durante la modifica delle informazioni utente' });
   }
-
-  jwt.verify(refreshToken, process.env.JWT_SECRET, async (err, user) => {
-    if (err) {
-      return res.status(401).json({ error: 'Refresh token non valido' });
-    }
-
-    try {
-      const result = await User.findOne({ username: user.username });
-
-      if (!result) {
-        return res.status(401).json({ error: 'Utente non trovato' });
-      }
-
-      if (result.refreshToken !== refreshToken) {
-        return res.status(401).json({ error: 'Refresh token non corrispondente' });
-      }
-
-      const accessToken = generateAccessToken(user);
-      res.json({ accessToken });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Errore del server' });
-    }
-  });
 };
 
 module.exports = {
+  view,
   register,
-  refresh,
+  modify,
 };
