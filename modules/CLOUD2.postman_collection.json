@@ -1,0 +1,241 @@
+{
+	"info": {
+		"_postman_id": "5756bf1f-f918-4632-8432-24462af3fb5c",
+		"name": "CLOUD2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "25463421"
+	},
+	"item": [
+		{
+			"name": "http://localhost:6000/users/login",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY5ODIyNjQwNSwiZXhwIjoxNjk4MjI3MzA1fQ.EgJzVeymr6cKeImw1yphdtkC_sGq_nJwolbMv04VEZ8"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "123",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:6000/users/login"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6000/user/register",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY5OTQzNTExOSwiZXhwIjoxNjk5NDM4NzE5fQ.tO-cBPYbvj_Pk8weAlZVYCfdBV6HRMcifkDORd8W7hc"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "123",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "12345",
+							"type": "text"
+						},
+						{
+							"key": "role",
+							"value": "admin",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:6000/users/register"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6000/users/refresh",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY5OTQzNTcxNSwiZXhwIjoxNjk5NDM5MzE1fQ.6-e7r-i0WQ6albn5RAJCNf9CaRh6LDwX_vocxdEbhYA"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"url": "http://localhost:6000/users/refresh"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6000/users/logout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY5OTQzNTcxNSwiZXhwIjoxNjk5NDM5MzE1fQ.6-e7r-i0WQ6albn5RAJCNf9CaRh6LDwX_vocxdEbhYA"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:6000/users/logout"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6000/users/view",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY5OTQzNTcxNSwiZXhwIjoxNjk5NDM5MzE1fQ.6-e7r-i0WQ6albn5RAJCNf9CaRh6LDwX_vocxdEbhYA"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:6000/users/view"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6000/users/modify",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"newPassword\": \"nuovaPassword\",\n  \"newInfo\": {\n    \"username\": \"nuovoUsername\",\n    \"role\": \"nuovoRuolo\"\n  }\n}\n"
+				},
+				"url": "http://localhost:6000/users/modify/6548fc2e121de2f06c639b92"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6000/film/read",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:6000/film/details/654b65066ff05198045d1be1"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6000/film/add",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY5OTQzOTg2NiwiZXhwIjoxNjk5NDQzNDY2fQ.JsrSqFMf7kuCirW6maMQm63B30nCwgGhTO8ZT-ikglE"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "12",
+							"type": "text"
+						},
+						{
+							"key": "title",
+							"value": "ciao",
+							"type": "text"
+						},
+						{
+							"key": "language",
+							"value": "italiano",
+							"type": "text"
+						},
+						{
+							"key": "director",
+							"value": "mario",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "ciao",
+							"type": "text"
+						},
+						{
+							"key": "purchases",
+							"value": "10",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:6000/film/add"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6000/film/update",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY5OTQzOTg2NiwiZXhwIjoxNjk5NDQzNDY2fQ.JsrSqFMf7kuCirW6maMQm63B30nCwgGhTO8ZT-ikglE"
+					}
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "title",
+							"value": "salve",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://localhost:6000/film/update/654b65066ff05198045d1be1"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6000/film/delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEyMyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY5OTQzOTg2NiwiZXhwIjoxNjk5NDQzNDY2fQ.JsrSqFMf7kuCirW6maMQm63B30nCwgGhTO8ZT-ikglE"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:6000/film/deleteFilm/654b6441a90bfabe821b62c7"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:6000/film/list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:6000/film/list"
+			},
+			"response": []
+		}
+	]
+}
