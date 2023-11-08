@@ -73,7 +73,6 @@ const modify = async (req, res) => {
   }
 };
 
-
 module.exports = {
   view,
   register,

@@ -2,7 +2,7 @@ const auth = require('../authentication');
 const authController = require('../controller/AuthController');
 const userController = require('../controller/UserController');
 
-exports.users = (app, client, database) => {
+exports.users = (app, database) => {
   app.post('/users/login', async (req, res) => {
     authController.login(req, res, database);
   });
