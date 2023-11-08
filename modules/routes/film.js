@@ -3,18 +3,18 @@ const filmController = require('../controller/FilmController');
 
 exports.film = (app, database) => {
   app.get('/film/read', async (req, res) => {
-    filmController.login(req, res, database);
+    filmController.read(req, res, database);
   });
 
   app.post('/film/add', auth.authentication, async (req, res) => {
-    filmController.logout(req, res, database);
+    filmController.add(req, res, database);
   });
 
   app.put('/film/update/:id', auth.authentication, async (req, res) => {
-    filmController.refresh(req, res, database);
+    filmController.update(req, res, database);
   });
 
   app.delete('/film/deleteFilm/:id',auth.authentication, async (req, res) => {
-    filmController.view(req, res, database);
+    filmController.deleteFilm(req, res, database);
   });
 };
