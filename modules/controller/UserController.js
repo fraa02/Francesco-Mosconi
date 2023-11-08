@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const saltrounds = 12;
-
-const User = require('..models/userModel');
+const User = require('../models/userModel');
 
 const register = async (req, res) => {
   const { username, password, role } = req.body;
